@@ -1,14 +1,11 @@
 """
-Utrecht Gemeente Randevu Takip Botu
-====================================
-Qmatic REST API'sini doğrudan sorgular — Selenium gerekmez.
+Slot Checker Bot
+================
+Monitors a scheduling API for earlier available slots and sends a Telegram
+notification when one appears.
 
-Endpoints:
-  Uygun günler : GET /rest/schedule/branches/{branchId}/dates;servicePublicId=...;customSlotLength=...
-  Saat slotları: GET /rest/schedule/branches/{branchId}/dates/{date}/times;servicePublicId=...;customSlotLength=...
-
-Kullanım: python checker.py
-Zamanlama: GitHub Actions cron veya herhangi bir scheduler.
+Usage: python checker.py
+Scheduling: GitHub Actions cron or any scheduler.
 """
 
 import json
@@ -23,7 +20,6 @@ import requests
 # YAPILANDIRMA SABİTLERİ
 # ---------------------------------------------------------------------------
 
-# Qmatic REST API base URL
 BASE_URL = "https://afspraak.utrecht.nl/qmaticwebbooking/rest/schedule"
 
 # Branch ve servis ID'leri (URL'den alındı)
@@ -76,7 +72,7 @@ TIMES_URL_TEMPLATE = f"{BASE_URL}/branches/{BRANCH_ID}/dates/{{date}}/times;{_PA
 _SESSION = requests.Session()
 _SESSION.headers.update({
     "Accept": "application/json",
-    "User-Agent": "Mozilla/5.0 (compatible; utrecht-bot/1.0)",
+    "User-Agent": "Mozilla/5.0 (compatible; slot-checker/1.0)",
 })
 
 
@@ -244,7 +240,7 @@ def send_telegram_message(text: str) -> None:
 def format_notification(new_slots: list[dict], old_earliest: str) -> str:
     """Yeni slotlar için bildirim metni üretir."""
     lines = [
-        "🔔 <b>Utrecht – Daha Erken Randevu Açıldı!</b>",
+        "🔔 <b>Daha Erken Slot Açıldı!</b>",
         f"<b>Hizmet:</b> {SERVICE_NAME}",
         f"<b>Önceki en erken tarih:</b> {old_earliest}",
         "",
