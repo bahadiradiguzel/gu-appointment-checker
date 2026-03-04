@@ -1,4 +1,4 @@
-name: Utrecht Randevu Kontrolü
+name: Appointment Slot Checker
 
 on:
   schedule:
@@ -32,6 +32,7 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          SERVICE_NAME: ${{ secrets.SERVICE_NAME }}
         run: python checker.py
 
       - name: Commit updated state

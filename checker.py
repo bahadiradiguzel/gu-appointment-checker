@@ -31,7 +31,7 @@ BRANCH_ID = "6799b9a23eb23e3be8cff82b78da95d10503b9057b8cf48bc34c4bc47f0"
 SERVICE_ID = "2d7f771f9554b048625e837f7f0c8936b1993136558d7625d59c48846473c44d"
 CUSTOM_SLOT_LENGTH = 25  # dakika
 
-SERVICE_NAME = "Verhuizing vanuit buitenland"
+SERVICE_NAME = os.environ.get("SERVICE_NAME", "Target Service")
 
 # Bu tarihten (dahil) önceki slotları yoksay — Format: YYYY-MM-DD
 MIN_DATE = "2026-03-01"
