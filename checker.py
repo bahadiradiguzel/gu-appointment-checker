@@ -253,7 +253,7 @@ def format_notification(new_slots: list[dict], old_earliest: str) -> str:
 
     lines += [
         "",
-        f'🔗 <a href="{BOOKING_URL}">Hemen randevu al</a>',
+        f'🔗 <a href="{BOOKING_URL}">Rezervasyon yap</a>',
         f"🕐 {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}",
     ]
     return "\n".join(lines)
@@ -265,8 +265,8 @@ def format_notification(new_slots: list[dict], old_earliest: str) -> str:
 
 def main() -> None:
     log.info("=" * 60)
-    log.info("Utrecht Randevu Takip Botu başlatıldı.")
-    log.info("Hizmet: %s | Min. Tarih: %s", SERVICE_NAME, MIN_DATE)
+    log.info("Slot Checker başlatıldı.")
+    log.info("Servis: %s | Min. Tarih: %s", SERVICE_NAME, MIN_DATE)
     log.info("=" * 60)
 
     if TELEGRAM_BOT_TOKEN == "BURAYA_TOKEN_GELECEK":
