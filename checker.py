@@ -36,6 +36,9 @@ SERVICE_NAME = os.environ.get("SERVICE_NAME", "Target Service")
 # Bu tarihten (dahil) önceki slotları yoksay — Format: YYYY-MM-DD
 MIN_DATE = "2026-03-01"
 
+# Bu tarihten sonraki yeni erken slotlar için bildirim gönderme — Format: YYYY-MM-DD
+MAX_NOTIFY_DATE = "2026-05-02"
+
 # Telegram — GitHub Secrets veya ortam değişkenlerinden okunur
 TELEGRAM_BOT_TOKEN: str = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 TELEGRAM_CHAT_ID: str = os.environ.get("TELEGRAM_CHAT_ID", "")
@@ -284,9 +287,14 @@ def main() -> None:
     new_slots = diff_states(old_state, current_slots)
 
     if new_slots:
-        log.info("DAHA ERKEN SLOT(LAR): %d tarih.", len(new_slots))
-        old_earliest = min(e["date"] for e in old_state) if old_state else "-"
-        send_telegram_message(format_notification(new_slots, old_earliest))
+        max_notify = datetime.strptime(MAX_NOTIFY_DATE, "%Y-%m-%d").date()
+        notifiable = [s for s in new_slots if datetime.strptime(s["date"], "%Y-%m-%d").date() <= max_notify]
+        if notifiable:
+            log.info("DAHA ERKEN SLOT(LAR): %d tarih.", len(notifiable))
+            old_earliest = min(e["date"] for e in old_state) if old_state else "-"
+            send_telegram_message(format_notification(notifiable, old_earliest))
+        else:
+            log.info("Yeni erken slotlar MAX_NOTIFY_DATE sonrasında — bildirim gönderilmedi.")
     else:
         log.info("Yeni slot yok — değişiklik yok.")
 

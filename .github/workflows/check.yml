@@ -3,7 +3,7 @@ name: Appointment Slot Checker
 on:
   schedule:
     # Her 5 dakikada bir (GitHub Actions minimum aralığı)
-    - cron: "*/5 * * * *"
+    - cron: "*/10 * * * *"
   workflow_dispatch: # Actions sekmesinden "Run workflow" ile manuel tetikleme
 
 jobs:
