@@ -42,7 +42,7 @@ TELEGRAM_CHAT_ID: str = os.environ.get("TELEGRAM_CHAT_ID", "")
 BOOKING_URL = "https://afspraak.utrecht.nl/qmaticwebbooking/"
 
 # HTTP istek zaman aşımı (saniye)
-REQUEST_TIMEOUT = 15
+REQUEST_TIMEOUT = 30
 
 # State dosyasının yolu
 STATE_FILE = "state.json"
